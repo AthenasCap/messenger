@@ -1,5 +1,6 @@
 package com.hizzit.messenger.business.messagehub.boundary;
 import com.hizzit.messenger.business.messagehub.control.ProfileStore;
+import com.hizzit.messenger.business.messagehub.control.UUIDgenerator;
 import com.hizzit.messenger.business.messagehub.entity.Profile;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -55,6 +56,7 @@ public class ProfileEndpoint {
     @ApiOperation(value = "Excepts a new profile")
     @ApiResponse(code = 400, message = "Invalid input")
     public Profile addProfile(Profile profile){
+        profile.setId(UUIDgenerator.generate());
         return ps.addProfile(profile);
     }
     

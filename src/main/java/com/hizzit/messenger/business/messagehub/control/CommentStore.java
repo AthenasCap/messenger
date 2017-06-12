@@ -29,14 +29,14 @@ public class CommentStore {
         return query.getResultList();
     }
     
-    public List<Comment> getAllCommentsFromMessageId(long messageId){
+    public List<Comment> getAllCommentsFromMessageId(String messageId){
         Message message = em.find(Message.class, messageId);
         List<Comment> comments = message.getComments();
         
         return comments;
     }
     
-    public Comment getComment(long messageId, long commentId){
+    public Comment getComment(String messageId, String commentId){
         List<Comment> comments = ms.getMessage(messageId).getComments();
         
         for(Comment c : comments){
@@ -47,7 +47,7 @@ public class CommentStore {
         return null;
     }
     
-    public Comment addComment(long messageId, Comment comment){
+    public Comment addComment(String messageId, Comment comment){
         em.persist(comment);
         Message message = ms.getMessage(messageId);
         message.addComment(comment);
@@ -57,12 +57,12 @@ public class CommentStore {
         return comment;
     }
     
-    public Comment updateComment(long messageId, Comment comment){
+    public Comment updateComment(String messageId, Comment comment){
          this.getComment(messageId, comment.getId());
          return em.merge(comment);
     }
     
-    public Comment removeComment(long messageId, long commentId){
+    public Comment removeComment(String messageId, String commentId){
         Comment comment = this.getComment(messageId, commentId);
         em.remove(comment);
         return comment;

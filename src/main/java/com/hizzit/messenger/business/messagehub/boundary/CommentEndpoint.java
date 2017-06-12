@@ -2,6 +2,7 @@ package com.hizzit.messenger.business.messagehub.boundary;
 
 import com.hizzit.messenger.business.messagehub.control.CommentStore;
 import com.hizzit.messenger.business.messagehub.control.MessageStore;
+import com.hizzit.messenger.business.messagehub.control.UUIDgenerator;
 import com.hizzit.messenger.business.messagehub.entity.Comment;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -58,7 +59,9 @@ public class CommentEndpoint {
     @ApiResponse(code = 400, message = "Invalid input")
     @POST
     @Path("/{messageId}")
-    public Comment addComment(@PathParam("messageId") long messageId, Comment comment){
+    public Comment addComment(@PathParam("messageId") String messageId, Comment comment){
+       
+       comment.setId(UUIDgenerator.generate()); 
        Comment persistedComment = cs.addComment(messageId, comment);
        
         return persistedComment;

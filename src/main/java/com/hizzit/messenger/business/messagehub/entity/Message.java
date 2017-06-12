@@ -1,5 +1,6 @@
 package com.hizzit.messenger.business.messagehub.entity;
 
+import com.hizzit.messenger.business.messagehub.control.UUIDgenerator;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -27,8 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Message implements Serializable{
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private String id;
     private String message;
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
@@ -42,9 +42,10 @@ public class Message implements Serializable{
     private List<Comment> comments;
 
     public Message() {
+   
     }
 
-    public Message(long id, String message, String author) {
+    public Message(String id, String message, String author) {
         this.id = id;
         this.message = message;
         this.author = author;
@@ -66,11 +67,11 @@ public class Message implements Serializable{
         }
     }  
     
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

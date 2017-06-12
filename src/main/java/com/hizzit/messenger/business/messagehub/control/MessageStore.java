@@ -21,7 +21,7 @@ public class MessageStore {
 
     }
 
-    public Message getMessage(long id){
+    public Message getMessage(String id){
         Query query = em.createNamedQuery("Message.findById");
         query.setParameter("id", id);
         
@@ -56,7 +56,7 @@ public class MessageStore {
         return foundMessage; 
     }
     
-    public Message removeMessage(long id){
+    public Message removeMessage(String id){
         Message message = this.getMessage(id);
         em.remove(message);
         return message;

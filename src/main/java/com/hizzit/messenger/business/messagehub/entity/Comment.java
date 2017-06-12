@@ -3,8 +3,6 @@ package com.hizzit.messenger.business.messagehub.entity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -24,8 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Comment implements Serializable{
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private String id;
     private String commentText;
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
@@ -38,7 +35,7 @@ public class Comment implements Serializable{
         
     }
 
-    public Comment(long id, String commentText, Date created, String author) {
+    public Comment(String id, String commentText, Date created, String author) {
         this.id = id;
         this.commentText = commentText;
         this.created = created;
@@ -50,11 +47,11 @@ public class Comment implements Serializable{
         this.created = new Date();
     }
     
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

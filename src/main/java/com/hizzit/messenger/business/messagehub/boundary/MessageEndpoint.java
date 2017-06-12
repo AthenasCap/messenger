@@ -1,6 +1,7 @@
 package com.hizzit.messenger.business.messagehub.boundary;
 import com.hizzit.messenger.business.messagehub.control.MessageFilters;
 import com.hizzit.messenger.business.messagehub.control.MessageStore;
+import com.hizzit.messenger.business.messagehub.control.UUIDgenerator;
 import com.hizzit.messenger.business.messagehub.entity.Message;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -51,7 +52,7 @@ public class MessageEndpoint {
     @Path("/{messageId}")
     @ApiOperation(value = "Retrieves a message by id")
     @ApiResponse(code = 400, message = "Invalid input")
-    public Message getMessage(@PathParam("messageId") long id){
+    public Message getMessage(@PathParam("messageId") String id){
         return ms.getMessage(id);
     }
     
@@ -59,7 +60,7 @@ public class MessageEndpoint {
     @Path("/{messageId}")
     @ApiOperation(value = "Updates a message")
     @ApiResponse(code = 400, message = "Invalid input")
-    public Message updateMessage(@PathParam("messageId")long id, Message message){
+    public Message updateMessage(@PathParam("messageId")String id, Message message){
         message.setId(id);
         return ms.updateMessage(message);
     }
@@ -68,6 +69,7 @@ public class MessageEndpoint {
     @ApiOperation(value = "Excepts a new message")
     @ApiResponse(code = 400, message = "Invalid input")
     public Message addMessage(Message message){
+        message.setId(UUIDgenerator.generate());
         return ms.addMessage(message);
     }
     
@@ -75,7 +77,7 @@ public class MessageEndpoint {
     @Path("/{messageId}")
     @ApiOperation(value = "Deletes a new message")
     @ApiResponse(code = 400, message = "Invalid input")
-    public void deleteMessage(@PathParam("messageId") long id){
+    public void deleteMessage(@PathParam("messageId") String id){
         ms.removeMessage(id);
     }
     
