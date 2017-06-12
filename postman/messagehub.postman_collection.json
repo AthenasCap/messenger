@@ -1,0 +1,261 @@
+{
+	"variables": [],
+	"info": {
+		"name": "messagehub",
+		"_postman_id": "519b1ec9-0ccc-b3d3-4129-8b84187a3189",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Messages",
+			"description": "",
+			"item": [
+				{
+					"name": "postMessage",
+					"request": {
+						"url": "localhost:8080/messenger/resources/messages",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"message\": \"Test!!!!\",\n  \"author\": \"testPname\"\n}"
+						},
+						"description": "posting new message"
+					},
+					"response": []
+				},
+				{
+					"name": "putMessage {messageId}",
+					"request": {
+						"url": "localhost:8080/messenger/resources/messages/5",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"message\": \"Test!!!!\",\n  \"author\": \"testPname\"\n}"
+						},
+						"description": "updating message by {messageId}"
+					},
+					"response": []
+				},
+				{
+					"name": "getAllMessages",
+					"request": {
+						"url": "localhost:8080/messenger/resources/messages/",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Gets all messages"
+					},
+					"response": []
+				},
+				{
+					"name": "getMessage {messageId}",
+					"request": {
+						"url": "localhost:8080/messenger/resources/messages/5",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Get message by {messageId}"
+					},
+					"response": []
+				},
+				{
+					"name": "deleteMessage {messageId}",
+					"request": {
+						"url": "localhost:8080/messenger/resources/messages/5",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "deleting message by {messageId}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "comments",
+			"description": "",
+			"item": [
+				{
+					"name": "comments subresource test",
+					"request": {
+						"url": "localhost:8080/messenger/resources/messages/2/comments",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {},
+						"description": "testing the subresource comments"
+					},
+					"response": []
+				},
+				{
+					"name": "postComment",
+					"request": {
+						"url": "localhost:8080/messenger/resources/comments",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"commentText\": \"TestComment!!!!\",\n  \"author\": \"testPname\"\n}"
+						},
+						"description": "posting new comment"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "profiles",
+			"description": "",
+			"item": [
+				{
+					"name": "postProfile",
+					"request": {
+						"url": "localhost:8080/messenger/resources/profiles/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"TestFname\",\n  \"lastName\": \"TestLname\",\n  \"profileName\": \"testPname\"\n}"
+						},
+						"description": "posts a new profile"
+					},
+					"response": []
+				},
+				{
+					"name": "putProfile {profileName}",
+					"request": {
+						"url": "localhost:8080/messenger/resources/profiles/TestPname",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"created\": \"2017-06-08T14:35:17.718+02:00\",\n  \"firstName\": \"PUT_TestFname\",\n  \"id\": 3,\n  \"lastName\": \"PUT_TestLname\",\n  \"profileName\": \"testPname\"\n}"
+						},
+						"description": "update profile by {profileName}"
+					},
+					"response": []
+				},
+				{
+					"name": "getProfiles",
+					"request": {
+						"url": "localhost:8080/messenger/resources/profiles/",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Jan\",\n  \"lastName\": \"Hinz\",\n  \"profileName\": \"janni\"\n}"
+						},
+						"description": "gets all profiles"
+					},
+					"response": []
+				},
+				{
+					"name": "getProfile {profileName}",
+					"request": {
+						"url": "localhost:8080/messenger/resources/profiles/TestPname",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Jan\",\n  \"lastName\": \"Hinz\",\n  \"profileName\": \"janni\"\n}"
+						},
+						"description": "get profile by {profileName}"
+					},
+					"response": []
+				},
+				{
+					"name": "deleteProfile {profileName}",
+					"request": {
+						"url": "localhost:8080/messenger/resources/profiles/TestPname",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "delete profile by {profileName}"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
