@@ -9,6 +9,6 @@ A thin-war is produced, which allowes for efficient deployment with docker.
 
 The Api-Endpoints are accessible at {host}/messenger/resources/{endpoint}.
 
-Endpoints implementet so far: profiles, messages, comments.
+Endpoints implemented so far: profiles, messages, comments.
 
 All still work in progress, buggy and a mess in general. Sounds like fun =).
