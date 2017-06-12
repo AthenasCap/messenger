@@ -1,0 +1,350 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Send and receive Messages",
+    "version" : "1.0.0",
+    "title" : "messagehub"
+  },
+  "host" : "localhost:8080",
+  "basePath" : "/api",
+  "schemes" : [ "http", "https" ],
+  "paths" : {
+    "/comments" : {
+      "get" : {
+        "summary" : "Retrieves all comments",
+        "description" : "",
+        "operationId" : "getAllComments",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comments/{messageId}" : {
+      "post" : {
+        "summary" : "Retrieves all comments of a message by messageId",
+        "description" : "",
+        "operationId" : "addComment",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "messageId",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Comment"
+            }
+          }
+        }
+      }
+    },
+    "/messages" : {
+      "get" : {
+        "summary" : "Retrieves all messages",
+        "description" : "",
+        "operationId" : "getMessages",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "year",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "start",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Excepts a new message",
+        "description" : "",
+        "operationId" : "addMessage",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Message"
+            }
+          }
+        }
+      }
+    },
+    "/messages/{messageId}" : {
+      "get" : {
+        "summary" : "Retrieves a message by id",
+        "description" : "",
+        "operationId" : "getMessage",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "messageId",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Message"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Updates a message",
+        "description" : "",
+        "operationId" : "updateMessage",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "messageId",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Message"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Deletes a new message",
+        "description" : "",
+        "operationId" : "deleteMessage",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "messageId",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "successful operation"
+          }
+        }
+      }
+    },
+    "/profiles" : {
+      "get" : {
+        "summary" : "Retrieves all profiles",
+        "description" : "",
+        "operationId" : "getProfiles",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Excepts a new profile",
+        "description" : "",
+        "operationId" : "addProfile",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Profile"
+            }
+          }
+        }
+      }
+    },
+    "/profiles/{profileName}" : {
+      "get" : {
+        "summary" : "Retrieves a profile by profileName",
+        "description" : "",
+        "operationId" : "getProfile",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "profileName",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Profile"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Updates a profile by profileName",
+        "description" : "",
+        "operationId" : "updateProfile",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "profileName",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Profile"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Deletes a profile by profileName",
+        "description" : "",
+        "operationId" : "deleteProfile",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "profileName",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Profile"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Comment" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "commentText" : {
+          "type" : "string"
+        },
+        "created" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "author" : {
+          "type" : "string"
+        },
+        "message" : {
+          "$ref" : "#/definitions/Message"
+        }
+      }
+    },
+    "Message" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "created" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "author" : {
+          "type" : "string"
+        },
+        "profile" : {
+          "$ref" : "#/definitions/Profile"
+        },
+        "comments" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Comment"
+          }
+        }
+      }
+    },
+    "Profile" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "profileName" : {
+          "type" : "string"
+        },
+        "firstName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "created" : {
+          "type" : "string",
+          "format" : "date-time"
+        }
+      }
+    }
+  }
+}
