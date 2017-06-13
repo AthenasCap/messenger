@@ -2,6 +2,7 @@ package com.hizzit.messenger.business.messagehub.control;
 
 import com.hizzit.messenger.business.messagehub.entity.Comment;
 import com.hizzit.messenger.business.messagehub.entity.Message;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -25,13 +26,17 @@ public class CommentStore {
     }
     
     public List<Comment> getAllComments(){
-        Query query = em.createNamedQuery("Comment.findAll"); 
-        return query.getResultList();
+        List<Comment> comments = new ArrayList<>();
+        Query query = em.createNamedQuery("Comment.findAll");
+        List resultList = query.getResultList();
+        resultList.forEach(element -> comments.add((Comment)element));
+        System.out.println("CommentStore----getAllComments()----return: " + comments.toString());
+        return comments;
     }
     
     public List<Comment> getAllCommentsFromMessageId(String messageId){
         Message message = em.find(Message.class, messageId);
-        List<Comment> comments = message.getComments();
+        List<Comment> comments = new ArrayList<>(message.getComments());
         
         return comments;
     }
@@ -48,12 +53,10 @@ public class CommentStore {
     }
     
     public Comment addComment(String messageId, Comment comment){
-        em.persist(comment);
         Message message = ms.getMessage(messageId);
         message.addComment(comment);
-        //ms.updateMessage(message);
-        
-        
+        ms.updateMessage(message);
+        //em.persist(comment);
         return comment;
     }
     

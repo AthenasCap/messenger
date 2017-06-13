@@ -41,18 +41,20 @@ public class CommentEndpoint {
     public CommentEndpoint() {
         
     }
-    /*
-    @GET
-    public List<Comment> getAllComments(@PathParam("messageId") long messageId){
-        return cs.getAllComments(messageId);
-    }
-    */
     
     @ApiOperation(value = "Retrieves all comments")
     @ApiResponse(code = 400, message = "Invalid input")
     @GET
     public List<Comment> getAllComments(){
-        return cs.getAllComments();
+        List<Comment> allComments = cs.getAllComments();
+        System.out.println("CommentEndpoint----getAllComments()----return: " + allComments.toString());
+        return allComments;
+    }
+    
+    @GET
+    @Path("/{messageId}")
+    public List<Comment> getAllComments(@PathParam("messageId") String messageId){
+        return cs.getAllCommentsFromMessageId(messageId);
     }
     
     @ApiOperation(value = "Retrieves all comments of a message by messageId")
@@ -63,8 +65,8 @@ public class CommentEndpoint {
        
        comment.setId(UUIDgenerator.generate()); 
        Comment persistedComment = cs.addComment(messageId, comment);
-       
-        return persistedComment;
+        System.out.println("comment persisted: " + persistedComment.getCommentText());
+       return persistedComment;
     }
     
     /*

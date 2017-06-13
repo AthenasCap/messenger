@@ -1,5 +1,4 @@
 package com.hizzit.messenger.business.messagehub.entity;
-import com.hizzit.messenger.business.messagehub.control.UUIDgenerator;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -13,10 +12,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries({
 @NamedQuery(name="Profile.findAll", query="SELECT p FROM Profile p"), 
 @NamedQuery(name="Profile.findById", query="SELECT p FROM Profile p WHERE p.id = :profileId"),
@@ -34,7 +37,8 @@ public class Profile implements Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
      
-    @XmlTransient
+    @XmlElement
+    @XmlInverseReference(mappedBy="profile")
     @OneToMany(cascade=ALL, mappedBy = "profile")
     private List<Message> messages;
 

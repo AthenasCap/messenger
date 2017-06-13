@@ -4,15 +4,21 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries({
 @NamedQuery(name="Comment.findAllByAuthor", query="SELECT c FROM Comment c WHERE c.author = :author"), 
 @NamedQuery(name="Comment.findById", query="SELECT c FROM Comment c WHERE c.id = :id"),
@@ -28,11 +34,12 @@ public class Comment implements Serializable{
     private Date created;
     private String author;
     
-    @XmlTransient
+    @XmlElement
+    @XmlInverseReference(mappedBy="comments")
+    @ManyToOne
     private Message message;
     
     public Comment(){
-        
     }
 
     public Comment(String id, String commentText, Date created, String author) {

@@ -1,25 +1,27 @@
 package com.hizzit.messenger.business.messagehub.entity;
 
-import com.hizzit.messenger.business.messagehub.control.UUIDgenerator;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import static javax.persistence.CascadeType.ALL;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries({
 @NamedQuery(name="Message.findAll", query="SELECT m FROM Message m"), 
 @NamedQuery(name="Message.findById", query="SELECT m FROM Message m WHERE m.id = :id")
@@ -34,10 +36,13 @@ public class Message implements Serializable{
     private Date created;
     private String author;
     
-    @XmlTransient
+    @XmlElement
+    @XmlInverseReference(mappedBy="messages")
+    @ManyToOne
     private Profile profile;
     
-    @XmlTransient
+    @XmlElement
+    @XmlInverseReference(mappedBy="message")
     @OneToMany(cascade=ALL, mappedBy = "message")
     private List<Comment> comments;
 
@@ -114,7 +119,4 @@ public class Message implements Serializable{
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
-    
-    
-   
 }
