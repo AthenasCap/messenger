@@ -52,7 +52,7 @@ public class CommentEndpoint {
     }
     
     @GET
-    @Path("/{messageId}")
+    @Path("/{messageId}/")
     public List<Comment> getAllComments(@PathParam("messageId") String messageId){
         return cs.getAllCommentsFromMessageId(messageId);
     }

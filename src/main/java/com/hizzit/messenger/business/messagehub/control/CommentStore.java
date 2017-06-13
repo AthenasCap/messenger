@@ -45,7 +45,7 @@ public class CommentStore {
         List<Comment> comments = ms.getMessage(messageId).getComments();
         
         for(Comment c : comments){
-            if(c.getId() == commentId){
+            if(c.getId().equals(commentId)){
                 return c;
             }
         }
@@ -56,7 +56,6 @@ public class CommentStore {
         Message message = ms.getMessage(messageId);
         message.addComment(comment);
         ms.updateMessage(message);
-        //em.persist(comment);
         return comment;
     }
     

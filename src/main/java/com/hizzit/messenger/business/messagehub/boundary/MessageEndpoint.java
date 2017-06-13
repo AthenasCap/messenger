@@ -1,4 +1,5 @@
 package com.hizzit.messenger.business.messagehub.boundary;
+import com.hizzit.messenger.business.messagehub.control.MessageFilterBean;
 import com.hizzit.messenger.business.messagehub.control.MessageFilters;
 import com.hizzit.messenger.business.messagehub.control.MessageStore;
 import com.hizzit.messenger.business.messagehub.control.UUIDgenerator;
@@ -9,6 +10,7 @@ import io.swagger.annotations.ApiResponse;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -17,7 +19,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 @Path("/messages")
@@ -36,14 +37,12 @@ public class MessageEndpoint {
     @GET
     @ApiOperation(value = "Retrieves all messages")
     @ApiResponse(code = 400, message = "Invalid input")
-    public List<Message> getMessages(@QueryParam("year") int year,
-                                     @QueryParam("start") int start,
-                                     @QueryParam("size") int size){
-        if(year > 0){
-            return mf.getAllMessagesForYear(year);
+    public List<Message> getMessages(@BeanParam MessageFilterBean filterBean){//Queryparams defined in MessageFilterBean
+        if(filterBean.getYear() > 0){
+            return mf.getAllMessagesForYear(filterBean.getYear());
         }
-        if(start >= 0 && size > 0){
-            return mf.getAllMessagesPaginated(start, size);
+        if(filterBean.getStart() >= 0 && filterBean.getSize() > 0){
+            return mf.getAllMessagesPaginated(filterBean.getStart(), filterBean.getSize());
         }
         return ms.getAllMessages();
     }
@@ -60,8 +59,8 @@ public class MessageEndpoint {
     @Path("/{messageId}")
     @ApiOperation(value = "Updates a message")
     @ApiResponse(code = 400, message = "Invalid input")
-    public Message updateMessage(@PathParam("messageId")String id, Message message){
-        message.setId(id);
+    public Message updateMessage(@PathParam("messageId")String messageId, Message message){
+        message.setId(messageId);
         return ms.updateMessage(message);
     }
     
@@ -91,5 +90,5 @@ public class MessageEndpoint {
     public CommentEndpoint getCommentEndpoint(){
         return new CommentEndpoint();
     }
-*/
+    */
 }
