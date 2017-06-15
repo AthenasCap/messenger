@@ -46,7 +46,7 @@ public class MessageStore {
     }
     
     public Message addMessage(Message message){
-        ps.getProfile(message.getAuthor()).addMessage(message);
+        ps.getProfileByName(message.getAuthor()).addMessage(message);
         em.persist(message);
         return message;
     }

@@ -5,6 +5,7 @@ import com.hizzit.messenger.business.messagehub.entity.Profile;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
+import java.net.URI;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -16,7 +17,10 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 @Path("/profiles")
 @Stateless
@@ -36,11 +40,11 @@ public class ProfileEndpoint {
     }
     
     @GET
-    @Path("/{profileName}")
-    @ApiOperation(value = "Retrieves a profile by profileName")
+    @Path("/{profileId}")
+    @ApiOperation(value = "Retrieves a profile by profileId")
     @ApiResponse(code = 400, message = "Invalid input")
-    public Profile getProfile(@PathParam("profileName") String profileName){
-        return ps.getProfile(profileName);
+    public Profile getProfile(@PathParam("profileId") String profileId){
+        return ps.getProfileById(profileId);
     }
     
     @PUT
@@ -54,17 +58,26 @@ public class ProfileEndpoint {
     
     @POST
     @ApiOperation(value = "Excepts a new profile")
-    @ApiResponse(code = 400, message = "Invalid input")
-    public Profile addProfile(Profile profile){
+    @ApiResponse(code = 201, message = "Created")
+    public Response addProfile(Profile profile, @Context UriInfo uriInfo){
         profile.setId(UUIDgenerator.generate());
-        return ps.addProfile(profile);
+        
+       
+        Profile newProfile = ps.addProfile(profile);
+        
+        URI uri = uriInfo.getAbsolutePathBuilder().path(newProfile.getId()).build();
+        
+        return Response
+                .created(uri)
+                .entity(newProfile)
+                .build();
     }
     
     @DELETE
-    @Path("/{profileName}")
-    @ApiOperation(value = "Deletes a profile by profileName")
+    @Path("/{profileId}")
+    @ApiOperation(value = "Deletes a profile by profileId")
     @ApiResponse(code = 400, message = "Invalid input")
-    public Profile deleteProfile(@PathParam("profileName") String profileName){
-        return ps.removeProfile(profileName);
+    public Profile deleteProfile(@PathParam("profileId") String profileId){
+        return ps.removeProfile(profileId);
     }
 }

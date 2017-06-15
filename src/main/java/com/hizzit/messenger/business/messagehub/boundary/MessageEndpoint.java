@@ -7,6 +7,8 @@ import com.hizzit.messenger.business.messagehub.entity.Message;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -19,7 +21,10 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 @Path("/messages")
 @Stateless
@@ -66,10 +71,18 @@ public class MessageEndpoint {
     
     @POST
     @ApiOperation(value = "Excepts a new message")
-    @ApiResponse(code = 400, message = "Invalid input")
-    public Message addMessage(Message message){
+    @ApiResponse(code = 201, message = "Created")
+    public Response addMessage(Message message, @Context UriInfo uriInfo) throws URISyntaxException{
+        
         message.setId(UUIDgenerator.generate());
-        return ms.addMessage(message);
+        Message newMessage = ms.addMessage(message);
+        
+        URI uri = uriInfo.getAbsolutePathBuilder().path(newMessage.getId()).build();
+        
+        return Response
+                .created(uri)
+                .entity(newMessage)
+                .build();
     }
     
     @DELETE
