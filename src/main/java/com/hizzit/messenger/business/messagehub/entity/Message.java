@@ -17,6 +17,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 
@@ -112,6 +113,7 @@ public class Message implements Serializable{
         this.profile = profile;
     }
 
+    @XmlTransient //ignore for xml/json-representations
     public List<Comment> getComments() {
         return comments;
     }

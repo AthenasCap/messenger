@@ -10,6 +10,10 @@ public class MessageFilterBean {
     private @QueryParam("start") int start;
     private @QueryParam("size") int size;
 
+    public MessageFilterBean() {
+    }
+
+    
     public int getYear() {
         return year;
     }

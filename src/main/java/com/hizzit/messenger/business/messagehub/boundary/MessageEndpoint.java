@@ -1,4 +1,5 @@
 package com.hizzit.messenger.business.messagehub.boundary;
+import com.hizzit.messenger.business.messagehub.control.CommentStore;
 import com.hizzit.messenger.business.messagehub.control.MessageFilterBean;
 import com.hizzit.messenger.business.messagehub.control.MessageFilters;
 import com.hizzit.messenger.business.messagehub.control.MessageStore;
@@ -11,6 +12,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
@@ -27,7 +30,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 @Path("/messages")
-@Stateless
+@RequestScoped
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Api
@@ -37,7 +40,18 @@ public class MessageEndpoint {
     MessageStore ms;
     
     @Inject
+    CommentStore cs;
+    
+    @Inject
     MessageFilters mf;
+    
+    @Inject
+    Instance<CommentEndpoint> ce;
+
+    public MessageEndpoint() {
+    }
+    
+    
     
     @GET
     @ApiOperation(value = "Retrieves all messages")
@@ -98,10 +112,24 @@ public class MessageEndpoint {
      * All requests to this will be mapped to the resource.
      * @return 
      */
-    /*
     @Path("/{messageId}/comments")
     public CommentEndpoint getCommentEndpoint(){
-        return new CommentEndpoint();
+        return ce.get();
     }
-    */
+
+    public MessageStore getMs() {
+        return ms;
+    }
+
+    public void setMs(MessageStore ms) {
+        this.ms = ms;
+    }
+
+    public CommentStore getCs() {
+        return cs;
+    }
+
+    public void setCs(CommentStore cs) {
+        this.cs = cs;
+    }
 }

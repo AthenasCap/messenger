@@ -31,6 +31,10 @@ public class ProfileEndpoint {
     
     @Inject
     ProfileStore ps;
+
+    public ProfileEndpoint() {
+    }
+    
     
     @GET
     @ApiOperation(value = "Retrieves all profiles")

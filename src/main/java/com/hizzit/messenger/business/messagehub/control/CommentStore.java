@@ -21,10 +21,6 @@ public class CommentStore {
     public CommentStore() {
     }
     
-    public String test(){
-        return "test die bohne wech";
-    }
-    
     public List<Comment> getAllComments(){
         List<Comment> comments = new ArrayList<>();
         Query query = em.createNamedQuery("Comment.findAll");
@@ -43,13 +39,13 @@ public class CommentStore {
     
     public Comment getComment(String messageId, String commentId){
         List<Comment> comments = ms.getMessage(messageId).getComments();
-        
+        ArrayList<Comment> matchingComments = new ArrayList<>();
         for(Comment c : comments){
             if(c.getId().equals(commentId)){
-                return c;
+                matchingComments.add(c);
             }
         }
-        return null;
+        return matchingComments.get(0);
     }
     
     public Comment addComment(String messageId, Comment comment){
