@@ -38,12 +38,14 @@ public class Message implements Serializable{
     private String author;
     
     @XmlElement
-    @XmlInverseReference(mappedBy="messages")
+    //@XmlInverseReference(mappedBy="messages")
+    @XmlTransient //ignore for xml/json-representations
     @ManyToOne
     private Profile profile;
     
     @XmlElement
-    @XmlInverseReference(mappedBy="message")
+    //@XmlInverseReference(mappedBy="message")
+    @XmlTransient //ignore for xml/json-representations
     @OneToMany(cascade=ALL, mappedBy = "message")
     private List<Comment> comments;
 
@@ -104,7 +106,7 @@ public class Message implements Serializable{
     public void setAuthor(String author) {
         this.author = author;
     }
-
+    
     public Profile getProfile() {
         return profile;
     }
@@ -113,7 +115,7 @@ public class Message implements Serializable{
         this.profile = profile;
     }
 
-    @XmlTransient //ignore for xml/json-representations
+    
     public List<Comment> getComments() {
         return comments;
     }

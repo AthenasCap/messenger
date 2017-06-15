@@ -3,11 +3,12 @@ package com.hizzit.messenger.business.messagehub.control;
 import com.hizzit.messenger.business.messagehub.entity.Profile;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-
+@Stateless
 public class ProfileStore {
 
     @PersistenceContext

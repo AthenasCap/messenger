@@ -16,6 +16,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 @XmlRootElement
@@ -38,7 +39,8 @@ public class Profile implements Serializable{
     private Date created;
      
     @XmlElement
-    @XmlInverseReference(mappedBy="profile")
+    //@XmlInverseReference(mappedBy="profile")
+    @XmlTransient //ignore for xml/json-representations
     @OneToMany(cascade=ALL, mappedBy = "profile")
     private List<Message> messages;
 
@@ -110,4 +112,13 @@ public class Profile implements Serializable{
     public void setCreated(Date created) {
         this.created = created;
     }
+
+    
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }  
 }

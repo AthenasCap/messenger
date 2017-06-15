@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 @XmlRootElement
@@ -34,7 +35,8 @@ public class Comment implements Serializable{
     private String author;
     
     @XmlElement
-    @XmlInverseReference(mappedBy="comments")
+    //@XmlInverseReference(mappedBy="comments") //only necessary when we want to actually use json serialization for entityrelations. @xmlTransient deactivates marshalling for the relation....
+    @XmlTransient //ignore for xml/json-representations
     @ManyToOne
     private Message message;
     

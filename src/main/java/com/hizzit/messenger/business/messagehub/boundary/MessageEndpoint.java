@@ -30,7 +30,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 @Path("/messages")
-@RequestScoped
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Api
@@ -50,8 +49,6 @@ public class MessageEndpoint {
 
     public MessageEndpoint() {
     }
-    
-    
     
     @GET
     @ApiOperation(value = "Retrieves all messages")

@@ -10,9 +10,7 @@ import io.swagger.annotations.ApiResponse;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.ManagedBean;
 import javax.ejb.Stateless;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -34,10 +32,11 @@ import javax.ws.rs.core.UriInfo;
  * /messages/1/comments/1 or messages/1/comments
  * @author jan
  */
+
+@Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Api
-@Path("/")
 public class CommentEndpoint {
    
     @Inject

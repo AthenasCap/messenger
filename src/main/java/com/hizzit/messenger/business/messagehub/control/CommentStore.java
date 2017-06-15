@@ -4,12 +4,13 @@ import com.hizzit.messenger.business.messagehub.entity.Comment;
 import com.hizzit.messenger.business.messagehub.entity.Message;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-
+@Stateless
 public class CommentStore {
     
     @PersistenceContext
