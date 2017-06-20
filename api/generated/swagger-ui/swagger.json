@@ -9,29 +9,30 @@
   "basePath" : "/api",
   "schemes" : [ "http", "https" ],
   "paths" : {
-    "/comments" : {
+    "/" : {
       "get" : {
-        "summary" : "Retrieves all comments",
+        "summary" : "commentEndpoint-subressource - (messages/{messageId}/comments/) Retrieves all comments for a message by messageId",
         "description" : "",
         "operationId" : "getAllComments",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "messageId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
         "responses" : {
           "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "object"
-              }
-            }
+            "description" : "Ok"
+          },
+          "204" : {
+            "description" : "No comments found yet"
           }
         }
-      }
-    },
-    "/comments/{messageId}" : {
+      },
       "post" : {
-        "summary" : "Retrieves all comments of a message by messageId",
+        "summary" : "commentEndpoint-subressource - Accepts a new comment by messageId to indentify the owning message.",
         "description" : "",
         "operationId" : "addComment",
         "consumes" : [ "application/json" ],
@@ -40,22 +41,18 @@
           "name" : "messageId",
           "in" : "path",
           "required" : true,
-          "type" : "integer",
-          "format" : "int64"
+          "type" : "string"
         } ],
         "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/Comment"
-            }
+          "default" : {
+            "description" : "successful operation"
           }
         }
       }
     },
     "/messages" : {
       "get" : {
-        "summary" : "Retrieves all messages",
+        "summary" : "Retrieves all messages, (?start=x ?size=x&year=xxxx or paginated only ?start=x&size=x)",
         "description" : "",
         "operationId" : "getMessages",
         "consumes" : [ "application/json" ],
@@ -81,35 +78,17 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "object"
-              }
-            }
-          }
-        }
-      },
-      "post" : {
-        "summary" : "Excepts a new message",
-        "description" : "",
-        "operationId" : "addMessage",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/Message"
-            }
+            "description" : "Ok"
+          },
+          "204" : {
+            "description" : "No Messages available yet"
           }
         }
       }
     },
     "/messages/{messageId}" : {
       "get" : {
-        "summary" : "Retrieves a message by id",
+        "summary" : "Retrieves a single message by it's id",
         "description" : "",
         "operationId" : "getMessage",
         "consumes" : [ "application/json" ],
@@ -118,20 +97,19 @@
           "name" : "messageId",
           "in" : "path",
           "required" : true,
-          "type" : "integer",
-          "format" : "int64"
+          "type" : "string"
         } ],
         "responses" : {
           "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/Message"
-            }
+            "description" : "Ok"
+          },
+          "404" : {
+            "description" : "No Message with given id was found"
           }
         }
       },
       "put" : {
-        "summary" : "Updates a message",
+        "summary" : "Updates a single message by it's id",
         "description" : "",
         "operationId" : "updateMessage",
         "consumes" : [ "application/json" ],
@@ -140,20 +118,19 @@
           "name" : "messageId",
           "in" : "path",
           "required" : true,
-          "type" : "integer",
-          "format" : "int64"
+          "type" : "string"
         } ],
         "responses" : {
           "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/Message"
-            }
+            "description" : "Ok, message updated with new text"
+          },
+          "404" : {
+            "description" : "No message with given id was found"
           }
         }
       },
       "delete" : {
-        "summary" : "Deletes a new message",
+        "summary" : "Deletes a single message",
         "description" : "",
         "operationId" : "deleteMessage",
         "consumes" : [ "application/json" ],
@@ -162,8 +139,30 @@
           "name" : "messageId",
           "in" : "path",
           "required" : true,
-          "type" : "integer",
-          "format" : "int64"
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Delete successful, no content in return"
+          },
+          "404" : {
+            "description" : "Nothing found to delete"
+          }
+        }
+      }
+    },
+    "/messages/{profileId}" : {
+      "post" : {
+        "summary" : "Accepts a new message",
+        "description" : "",
+        "operationId" : "addMessage",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "profileId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
         } ],
         "responses" : {
           "default" : {
@@ -172,177 +171,83 @@
         }
       }
     },
-    "/profiles" : {
+    "/{commentId}" : {
       "get" : {
-        "summary" : "Retrieves all profiles",
+        "summary" : "commentEndpoint-subressource - Retrieves a single comment by it's owning message's id and the commentId",
         "description" : "",
-        "operationId" : "getProfiles",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "object"
-              }
-            }
-          }
-        }
-      },
-      "post" : {
-        "summary" : "Excepts a new profile",
-        "description" : "",
-        "operationId" : "addProfile",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/Profile"
-            }
-          }
-        }
-      }
-    },
-    "/profiles/{profileName}" : {
-      "get" : {
-        "summary" : "Retrieves a profile by profileName",
-        "description" : "",
-        "operationId" : "getProfile",
+        "operationId" : "getComment",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
-          "name" : "profileName",
+          "name" : "messageId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "commentId",
           "in" : "path",
           "required" : true,
           "type" : "string"
         } ],
         "responses" : {
           "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/Profile"
-            }
+            "description" : "Ok"
+          },
+          "404" : {
+            "description" : "No comment with given messageId/commentId was found"
           }
         }
       },
       "put" : {
-        "summary" : "Updates a profile by profileName",
+        "summary" : "commentEndpoint-subressource - Updates a single comment by it's owning message's id and the commentId",
         "description" : "",
-        "operationId" : "updateProfile",
+        "operationId" : "updateComment",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
-          "name" : "profileName",
+          "name" : "messageId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "commentId",
           "in" : "path",
           "required" : true,
           "type" : "string"
         } ],
         "responses" : {
           "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/Profile"
-            }
+            "description" : "Ok, comment updated with new text"
+          },
+          "404" : {
+            "description" : "No Comment with given ids was found"
           }
         }
       },
       "delete" : {
-        "summary" : "Deletes a profile by profileName",
+        "summary" : "commentEndpoint-subressource - Deletes a single comment by messageId and commentId",
         "description" : "",
-        "operationId" : "deleteProfile",
+        "operationId" : "deleteComment",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
-          "name" : "profileName",
+          "name" : "messageId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "commentId}",
           "in" : "path",
           "required" : true,
           "type" : "string"
         } ],
         "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/Profile"
-            }
+          "204" : {
+            "description" : "Delete successful, no content in return"
+          },
+          "404" : {
+            "description" : "Nothing found to delete"
           }
-        }
-      }
-    }
-  },
-  "definitions" : {
-    "Comment" : {
-      "type" : "object",
-      "properties" : {
-        "id" : {
-          "type" : "integer",
-          "format" : "int64"
-        },
-        "commentText" : {
-          "type" : "string"
-        },
-        "created" : {
-          "type" : "string",
-          "format" : "date-time"
-        },
-        "author" : {
-          "type" : "string"
-        },
-        "message" : {
-          "$ref" : "#/definitions/Message"
-        }
-      }
-    },
-    "Message" : {
-      "type" : "object",
-      "properties" : {
-        "id" : {
-          "type" : "integer",
-          "format" : "int64"
-        },
-        "message" : {
-          "type" : "string"
-        },
-        "created" : {
-          "type" : "string",
-          "format" : "date-time"
-        },
-        "author" : {
-          "type" : "string"
-        },
-        "profile" : {
-          "$ref" : "#/definitions/Profile"
-        },
-        "comments" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/Comment"
-          }
-        }
-      }
-    },
-    "Profile" : {
-      "type" : "object",
-      "properties" : {
-        "id" : {
-          "type" : "integer",
-          "format" : "int64"
-        },
-        "profileName" : {
-          "type" : "string"
-        },
-        "firstName" : {
-          "type" : "string"
-        },
-        "lastName" : {
-          "type" : "string"
-        },
-        "created" : {
-          "type" : "string",
-          "format" : "date-time"
         }
       }
     }

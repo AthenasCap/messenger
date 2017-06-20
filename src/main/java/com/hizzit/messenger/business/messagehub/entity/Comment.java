@@ -3,42 +3,47 @@ package com.hizzit.messenger.business.messagehub.entity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries({
-@NamedQuery(name="Comment.findAllByAuthor", query="SELECT c FROM Comment c WHERE c.author = :author"), 
+@NamedQuery(name="Comment.findAllByAuthor", query="SELECT c FROM Comment c WHERE c.author = :author order by c.created desc"), 
 @NamedQuery(name="Comment.findById", query="SELECT c FROM Comment c WHERE c.id = :id"),
-@NamedQuery(name="Comment.findAll", query="SELECT c FROM Comment c")
+@NamedQuery(name="Comment.findAll", query="SELECT c FROM Comment c order by c.created desc")
 })
 @Entity
 public class Comment implements Serializable{
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private String id;
     private String commentText;
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
     private String author;
     
-    @XmlTransient
+    @XmlElement
+    //@XmlInverseReference(mappedBy="comments") //only necessary when we want to actually use json serialization for entityrelations. @xmlTransient deactivates marshalling for the relation....
+    @XmlTransient //ignore for xml/json-representations
+    @ManyToOne
     private Message message;
     
     public Comment(){
-        
     }
 
-    public Comment(long id, String commentText, Date created, String author) {
+    public Comment(String id, String commentText, Date created, String author) {
         this.id = id;
         this.commentText = commentText;
         this.created = created;
@@ -50,11 +55,11 @@ public class Comment implements Serializable{
         this.created = new Date();
     }
     
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

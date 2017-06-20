@@ -1,14 +1,17 @@
 
 package com.hizzit.messenger.business.messagehub.control;
 
+import com.hizzit.messenger.business.profilehub.control.ProfileStore;
 import com.hizzit.messenger.business.messagehub.entity.Message;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+@Stateless
 public class MessageStore {
     
     @PersistenceContext
@@ -21,14 +24,14 @@ public class MessageStore {
 
     }
 
-    public Message getMessage(long id){
+    public Message getMessage(String id){
         Query query = em.createNamedQuery("Message.findById");
         query.setParameter("id", id);
         
         try {
             List rl = query.getResultList();
             for(Object m : rl){
-                System.out.println("resultlist: Author:" + ((Message)m).getAuthor() + " Message:" + ((Message)m).getMessage());
+                System.out.println("resultlist: Author:" + ((Message)m).getAuthor() + " Message:" + ((Message)m).getMessageText());
             }
             return (Message) rl.get(0);
         }catch (Exception e) {
@@ -45,8 +48,8 @@ public class MessageStore {
         return messages;
     }
     
-    public Message addMessage(Message message){
-        ps.getProfile(message.getAuthor()).addMessage(message);
+    public Message addMessage(String profileId, Message message){
+        ps.getProfileById(profileId).addMessage(message);
         em.persist(message);
         return message;
     }
@@ -56,7 +59,7 @@ public class MessageStore {
         return foundMessage; 
     }
     
-    public Message removeMessage(long id){
+    public Message removeMessage(String id){
         Message message = this.getMessage(id);
         em.remove(message);
         return message;

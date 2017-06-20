@@ -43,8 +43,8 @@
                                 <location>com.hizzit.messenger.business.messagehub.boundary</location>
                             </locations>
                             <basePath>/api</basePath>
-                            <outputPath>/hinzprojects/messenger/api/generated/document.html</outputPath>
-                            <swaggerDirectory>/hinzprojects/messenger/api/generated/swagger-ui</swaggerDirectory>
+                            <outputPath>${basedir}/api/generated/document.html</outputPath>
+                            <swaggerDirectory>${basedir}/api/generated/swagger-ui</swaggerDirectory>
                             <schemes>
                                 <scheme>http</scheme>
                                 <scheme>https</scheme>
