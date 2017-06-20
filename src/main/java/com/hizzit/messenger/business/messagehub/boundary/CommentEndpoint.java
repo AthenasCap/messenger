@@ -107,7 +107,7 @@ public class CommentEndpoint {
     }
     
     @POST
-    @ApiOperation(value = "Accepts a new comment by messageId to indentify the owning message.")
+    @ApiOperation(value = "commentEndpoint-subressource - Accepts a new comment by messageId to indentify the owning message.")
     @ApiResponse(code = 201, message = "Created")
     public Response addComment(@PathParam("messageId") String messageId, Comment comment, @Context UriInfo uriInfo){
        comment.setId(UUIDgenerator.generate());
@@ -121,7 +121,7 @@ public class CommentEndpoint {
 
     @DELETE
     @Path("/{commentId}")
-    @ApiOperation(value = "Deletes a single comment by messageId and commentId")
+    @ApiOperation(value = "commentEndpoint-subressource - Deletes a single comment by messageId and commentId")
     @ApiResponses({ @ApiResponse(code = 204, message = "Delete successful, no content in return"),
                     @ApiResponse(code = 404, message = "Nothing found to delete")})
     public Response deleteComment(@PathParam("messageId") String messageId, @PathParam("commentId}") String commentId){

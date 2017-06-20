@@ -10,8 +10,29 @@
   "schemes" : [ "http", "https" ],
   "paths" : {
     "/" : {
+      "get" : {
+        "summary" : "commentEndpoint-subressource - (messages/{messageId}/comments/) Retrieves all comments for a message by messageId",
+        "description" : "",
+        "operationId" : "getAllComments",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "messageId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok"
+          },
+          "204" : {
+            "description" : "No comments found yet"
+          }
+        }
+      },
       "post" : {
-        "summary" : "Retrieves all comments of a message by messageId",
+        "summary" : "commentEndpoint-subressource - Accepts a new comment by messageId to indentify the owning message.",
         "description" : "",
         "operationId" : "addComment",
         "consumes" : [ "application/json" ],
@@ -132,7 +153,7 @@
     },
     "/messages/{profileId}" : {
       "post" : {
-        "summary" : "Excepts a new message",
+        "summary" : "Accepts a new message",
         "description" : "",
         "operationId" : "addMessage",
         "consumes" : [ "application/json" ],
@@ -167,7 +188,7 @@
         }
       },
       "post" : {
-        "summary" : "Excepts a new profile",
+        "summary" : "Accepts a new profile",
         "description" : "",
         "operationId" : "addProfile",
         "consumes" : [ "application/json" ],
@@ -230,6 +251,86 @@
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "profileId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Delete successful, no content in return"
+          },
+          "404" : {
+            "description" : "Nothing found to delete"
+          }
+        }
+      }
+    },
+    "/{commentId}" : {
+      "get" : {
+        "summary" : "commentEndpoint-subressource - Retrieves a single comment by it's owning message's id and the commentId",
+        "description" : "",
+        "operationId" : "getComment",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "messageId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "commentId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok"
+          },
+          "404" : {
+            "description" : "No comment with given messageId/commentId was found"
+          }
+        }
+      },
+      "put" : {
+        "summary" : "commentEndpoint-subressource - Updates a single comment by it's owning message's id and the commentId",
+        "description" : "",
+        "operationId" : "updateComment",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "messageId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "commentId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Ok, comment updated with new text"
+          },
+          "404" : {
+            "description" : "No Comment with given ids was found"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "commentEndpoint-subressource - Deletes a single comment by messageId and commentId",
+        "description" : "",
+        "operationId" : "deleteComment",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "messageId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "commentId}",
           "in" : "path",
           "required" : true,
           "type" : "string"
