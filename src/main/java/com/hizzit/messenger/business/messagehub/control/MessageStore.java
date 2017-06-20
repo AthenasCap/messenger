@@ -30,7 +30,7 @@ public class MessageStore {
         try {
             List rl = query.getResultList();
             for(Object m : rl){
-                System.out.println("resultlist: Author:" + ((Message)m).getAuthor() + " Message:" + ((Message)m).getMessage());
+                System.out.println("resultlist: Author:" + ((Message)m).getAuthor() + " Message:" + ((Message)m).getMessageText());
             }
             return (Message) rl.get(0);
         }catch (Exception e) {
@@ -47,8 +47,8 @@ public class MessageStore {
         return messages;
     }
     
-    public Message addMessage(Message message){
-        ps.getProfileByName(message.getAuthor()).addMessage(message);
+    public Message addMessage(String profileId, Message message){
+        ps.getProfileById(profileId).addMessage(message);
         em.persist(message);
         return message;
     }

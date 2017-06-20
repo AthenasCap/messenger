@@ -20,9 +20,9 @@ import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries({
-@NamedQuery(name="Comment.findAllByAuthor", query="SELECT c FROM Comment c WHERE c.author = :author"), 
+@NamedQuery(name="Comment.findAllByAuthor", query="SELECT c FROM Comment c WHERE c.author = :author order by c.created desc"), 
 @NamedQuery(name="Comment.findById", query="SELECT c FROM Comment c WHERE c.id = :id"),
-@NamedQuery(name="Comment.findAll", query="SELECT c FROM Comment c")
+@NamedQuery(name="Comment.findAll", query="SELECT c FROM Comment c order by c.created desc")
 })
 @Entity
 public class Comment implements Serializable{

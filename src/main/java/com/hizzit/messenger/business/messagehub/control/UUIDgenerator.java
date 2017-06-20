@@ -9,5 +9,5 @@ public class UUIDgenerator {
     
     public static String generate(){
         return UUID.randomUUID().toString();
-    }  
+    }
 }

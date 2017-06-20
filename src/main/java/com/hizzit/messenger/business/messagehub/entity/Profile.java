@@ -17,12 +17,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries({
-@NamedQuery(name="Profile.findAll", query="SELECT p FROM Profile p"), 
+@NamedQuery(name="Profile.findAll", query="SELECT p FROM Profile p order by p.created desc"), 
 @NamedQuery(name="Profile.findById", query="SELECT p FROM Profile p WHERE p.id = :profileId"),
 @NamedQuery(name="Profile.findByProfileName", query="SELECT p FROM Profile p WHERE p.profileName = :profileName")
 })
@@ -35,6 +34,7 @@ public class Profile implements Serializable{
     private String profileName;
     private String firstName;
     private String lastName;
+    private String profileText;
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
      
@@ -121,4 +121,14 @@ public class Profile implements Serializable{
     public void setMessages(List<Message> messages) {
         this.messages = messages;
     }  
+
+    public String getProfileText() {
+        return profileText;
+    }
+
+    public void setProfileText(String profileText) {
+        this.profileText = profileText;
+    }
+    
+    
 }

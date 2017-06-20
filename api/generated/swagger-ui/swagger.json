@@ -9,27 +9,7 @@
   "basePath" : "/api",
   "schemes" : [ "http", "https" ],
   "paths" : {
-    "/comments" : {
-      "get" : {
-        "summary" : "Retrieves all comments",
-        "description" : "",
-        "operationId" : "getAllComments",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "object"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/comments/{messageId}" : {
+    "/" : {
       "post" : {
         "summary" : "Retrieves all comments of a message by messageId",
         "description" : "",
@@ -40,22 +20,18 @@
           "name" : "messageId",
           "in" : "path",
           "required" : true,
-          "type" : "integer",
-          "format" : "int64"
+          "type" : "string"
         } ],
         "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/Comment"
-            }
+          "default" : {
+            "description" : "successful operation"
           }
         }
       }
     },
     "/messages" : {
       "get" : {
-        "summary" : "Retrieves all messages",
+        "summary" : "Retrieves all messages, (?start=x ?size=x&year=xxxx or paginated only ?start=x&size=x)",
         "description" : "",
         "operationId" : "getMessages",
         "consumes" : [ "application/json" ],
@@ -81,35 +57,17 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "object"
-              }
-            }
-          }
-        }
-      },
-      "post" : {
-        "summary" : "Excepts a new message",
-        "description" : "",
-        "operationId" : "addMessage",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/Message"
-            }
+            "description" : "Ok"
+          },
+          "204" : {
+            "description" : "No Messages available yet"
           }
         }
       }
     },
     "/messages/{messageId}" : {
       "get" : {
-        "summary" : "Retrieves a message by id",
+        "summary" : "Retrieves a single message by it's id",
         "description" : "",
         "operationId" : "getMessage",
         "consumes" : [ "application/json" ],
@@ -118,20 +76,19 @@
           "name" : "messageId",
           "in" : "path",
           "required" : true,
-          "type" : "integer",
-          "format" : "int64"
+          "type" : "string"
         } ],
         "responses" : {
           "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/Message"
-            }
+            "description" : "Ok"
+          },
+          "404" : {
+            "description" : "No Message with given id was found"
           }
         }
       },
       "put" : {
-        "summary" : "Updates a message",
+        "summary" : "Updates a single message by it's id",
         "description" : "",
         "operationId" : "updateMessage",
         "consumes" : [ "application/json" ],
@@ -140,20 +97,19 @@
           "name" : "messageId",
           "in" : "path",
           "required" : true,
-          "type" : "integer",
-          "format" : "int64"
+          "type" : "string"
         } ],
         "responses" : {
           "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/Message"
-            }
+            "description" : "Ok, message updated with new text"
+          },
+          "404" : {
+            "description" : "No message with given id was found"
           }
         }
       },
       "delete" : {
-        "summary" : "Deletes a new message",
+        "summary" : "Deletes a single message",
         "description" : "",
         "operationId" : "deleteMessage",
         "consumes" : [ "application/json" ],
@@ -162,8 +118,30 @@
           "name" : "messageId",
           "in" : "path",
           "required" : true,
-          "type" : "integer",
-          "format" : "int64"
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Delete successful, no content in return"
+          },
+          "404" : {
+            "description" : "Nothing found to delete"
+          }
+        }
+      }
+    },
+    "/messages/{profileId}" : {
+      "post" : {
+        "summary" : "Excepts a new message",
+        "description" : "",
+        "operationId" : "addMessage",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "profileId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
         } ],
         "responses" : {
           "default" : {
@@ -181,13 +159,10 @@
         "produces" : [ "application/json" ],
         "responses" : {
           "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "object"
-              }
-            }
+            "description" : "Ok"
+          },
+          "204" : {
+            "description" : "No profiles found yet"
           }
         }
       },
@@ -198,151 +173,74 @@
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/Profile"
-            }
+          "default" : {
+            "description" : "successful operation"
           }
         }
       }
     },
-    "/profiles/{profileName}" : {
+    "/profiles/{profileId}" : {
       "get" : {
-        "summary" : "Retrieves a profile by profileName",
+        "summary" : "Retrieves a profile by profileId",
         "description" : "",
         "operationId" : "getProfile",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
-          "name" : "profileName",
+          "name" : "profileId",
           "in" : "path",
           "required" : true,
           "type" : "string"
         } ],
         "responses" : {
           "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/Profile"
-            }
+            "description" : "Ok"
+          },
+          "404" : {
+            "description" : "No profile with given id was found"
           }
         }
       },
       "put" : {
-        "summary" : "Updates a profile by profileName",
+        "summary" : "Updates a profile by it's given id",
         "description" : "",
         "operationId" : "updateProfile",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
-          "name" : "profileName",
+          "name" : "profileId",
           "in" : "path",
           "required" : true,
           "type" : "string"
         } ],
         "responses" : {
           "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/Profile"
-            }
+            "description" : "Ok, profile updated with new text"
+          },
+          "404" : {
+            "description" : "No profile with given id was found"
           }
         }
       },
       "delete" : {
-        "summary" : "Deletes a profile by profileName",
+        "summary" : "Deletes a profile by profileId",
         "description" : "",
         "operationId" : "deleteProfile",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
-          "name" : "profileName",
+          "name" : "profileId",
           "in" : "path",
           "required" : true,
           "type" : "string"
         } ],
         "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/Profile"
-            }
+          "204" : {
+            "description" : "Delete successful, no content in return"
+          },
+          "404" : {
+            "description" : "Nothing found to delete"
           }
-        }
-      }
-    }
-  },
-  "definitions" : {
-    "Comment" : {
-      "type" : "object",
-      "properties" : {
-        "id" : {
-          "type" : "integer",
-          "format" : "int64"
-        },
-        "commentText" : {
-          "type" : "string"
-        },
-        "created" : {
-          "type" : "string",
-          "format" : "date-time"
-        },
-        "author" : {
-          "type" : "string"
-        },
-        "message" : {
-          "$ref" : "#/definitions/Message"
-        }
-      }
-    },
-    "Message" : {
-      "type" : "object",
-      "properties" : {
-        "id" : {
-          "type" : "integer",
-          "format" : "int64"
-        },
-        "message" : {
-          "type" : "string"
-        },
-        "created" : {
-          "type" : "string",
-          "format" : "date-time"
-        },
-        "author" : {
-          "type" : "string"
-        },
-        "profile" : {
-          "$ref" : "#/definitions/Profile"
-        },
-        "comments" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/Comment"
-          }
-        }
-      }
-    },
-    "Profile" : {
-      "type" : "object",
-      "properties" : {
-        "id" : {
-          "type" : "integer",
-          "format" : "int64"
-        },
-        "profileName" : {
-          "type" : "string"
-        },
-        "firstName" : {
-          "type" : "string"
-        },
-        "lastName" : {
-          "type" : "string"
-        },
-        "created" : {
-          "type" : "string",
-          "format" : "date-time"
         }
       }
     }

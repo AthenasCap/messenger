@@ -18,13 +18,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries({
-@NamedQuery(name="Message.findAll", query="SELECT m FROM Message m"), 
+@NamedQuery(name="Message.findAll", query="SELECT m FROM Message m order by m.created desc"), 
 @NamedQuery(name="Message.findById", query="SELECT m FROM Message m WHERE m.id = :id")
 })
 @Entity
@@ -32,19 +31,19 @@ public class Message implements Serializable{
     
     @Id
     private String id;
-    private String message;
+    private String messageText;
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
     private String author;
     
     @XmlElement
-    //@XmlInverseReference(mappedBy="messages")
+    //@XmlInverseReference(mappedBy="messages") //only needed to map jpa relations in the json objects..
     @XmlTransient //ignore for xml/json-representations
     @ManyToOne
     private Profile profile;
     
     @XmlElement
-    //@XmlInverseReference(mappedBy="message")
+    //@XmlInverseReference(mappedBy="messageText")
     @XmlTransient //ignore for xml/json-representations
     @OneToMany(cascade=ALL, mappedBy = "message")
     private List<Comment> comments;
@@ -55,7 +54,7 @@ public class Message implements Serializable{
 
     public Message(String id, String message, String author) {
         this.id = id;
-        this.message = message;
+        this.messageText = message;
         this.author = author;
     }
     
@@ -65,7 +64,7 @@ public class Message implements Serializable{
     }
     
     /**
-     * Keeps the relation between message and comment in sync.
+     * Keeps the relation between messageText and comment in sync.
      * @param comment 
      */
     public void addComment(Comment comment) {
@@ -83,12 +82,12 @@ public class Message implements Serializable{
         this.id = id;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMessageText() {
+        return messageText;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMessageText(String message) {
+        this.messageText = message;
     }
 
     public Date getCreated() {

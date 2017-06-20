@@ -13,7 +13,6 @@ public class MessageFilterBean {
     public MessageFilterBean() {
     }
 
-    
     public int getYear() {
         return year;
     }
