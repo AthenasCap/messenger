@@ -3,8 +3,8 @@
   <persistence-unit name="messengerPU" transaction-type="JTA">
     <jta-data-source>jdbc/messengerresource</jta-data-source>
     <class>com.hizzit.messenger.business.messagehub.entity.Message</class>
-    <class>com.hizzit.messenger.business.messagehub.entity.Profile</class>
     <class>com.hizzit.messenger.business.messagehub.entity.Comment</class>
+    <class>com.hizzit.messenger.business.profilehub.entity.Profile</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>

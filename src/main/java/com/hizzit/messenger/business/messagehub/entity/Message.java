@@ -1,5 +1,6 @@
 package com.hizzit.messenger.business.messagehub.entity;
 
+import com.hizzit.messenger.business.profilehub.entity.Profile;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;

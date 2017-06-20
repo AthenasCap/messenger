@@ -1,6 +1,7 @@
 
 package com.hizzit.messenger.business.messagehub.control;
 
+import com.hizzit.messenger.business.profilehub.control.ProfileStore;
 import com.hizzit.messenger.business.messagehub.entity.Message;
 import java.util.ArrayList;
 import java.util.List;

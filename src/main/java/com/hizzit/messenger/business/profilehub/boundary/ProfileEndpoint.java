@@ -1,7 +1,7 @@
-package com.hizzit.messenger.business.messagehub.boundary;
-import com.hizzit.messenger.business.messagehub.control.ProfileStore;
+package com.hizzit.messenger.business.profilehub.boundary;
+import com.hizzit.messenger.business.profilehub.control.ProfileStore;
 import com.hizzit.messenger.business.messagehub.control.UUIDgenerator;
-import com.hizzit.messenger.business.messagehub.entity.Profile;
+import com.hizzit.messenger.business.profilehub.entity.Profile;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

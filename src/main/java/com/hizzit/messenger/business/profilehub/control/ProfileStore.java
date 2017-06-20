@@ -1,6 +1,6 @@
-package com.hizzit.messenger.business.messagehub.control;
+package com.hizzit.messenger.business.profilehub.control;
 
-import com.hizzit.messenger.business.messagehub.entity.Profile;
+import com.hizzit.messenger.business.profilehub.entity.Profile;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
