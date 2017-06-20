@@ -57,8 +57,9 @@ public class CommentStore {
     }
     
     public Comment updateComment(String messageId, Comment comment){
-         this.getComment(messageId, comment.getId());
-         return em.merge(comment);
+         Comment originalComment = this.getComment(messageId, comment.getId());
+         originalComment.setCommentText(comment.getCommentText());
+         return em.merge(originalComment);
     }
     
     public Comment removeComment(String messageId, String commentId){

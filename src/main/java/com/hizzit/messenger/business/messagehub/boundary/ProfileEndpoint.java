@@ -101,7 +101,7 @@ public class ProfileEndpoint {
     }
     
     @POST
-    @ApiOperation(value = "Excepts a new profile")
+    @ApiOperation(value = "Accepts a new profile")
     @ApiResponse(code = 201, message = "New profile created")
     public Response addProfile(Profile profile, @Context UriInfo uriInfo){
         profile.setId(UUIDgenerator.generate());

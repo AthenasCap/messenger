@@ -148,10 +148,11 @@ public class MessageEndpoint {
                     .build();
         }
     }
+   
     
     @POST
     @Path("/{profileId}")
-    @ApiOperation(value = "Excepts a new message")
+    @ApiOperation(value = "Accepts a new message")
     @ApiResponse(code = 201, message = "New message created")
     public Response addMessage(@PathParam("profileId") String profileId, Message message, @Context UriInfo uriInfo) throws URISyntaxException{
         message.setId(UUIDgenerator.generate());
@@ -169,7 +170,6 @@ public class MessageEndpoint {
     @ApiOperation(value = "Deletes a single message")
     @ApiResponses({ @ApiResponse(code = 204, message = "Delete successful, no content in return"),
                     @ApiResponse(code = 404, message = "Nothing found to delete")})
-    
     public Response deleteMessage(@PathParam("messageId") String id){
         Message deletedMessage = ms.removeMessage(id);
         if(deletedMessage == null){
