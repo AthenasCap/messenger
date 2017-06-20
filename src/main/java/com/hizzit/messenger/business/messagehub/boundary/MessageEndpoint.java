@@ -1,7 +1,7 @@
 package com.hizzit.messenger.business.messagehub.boundary;
 import com.hizzit.messenger.business.messagehub.control.CommentStore;
-import com.hizzit.messenger.business.messagehub.control.MessageFilterBean;
-import com.hizzit.messenger.business.messagehub.control.MessageFilters;
+import com.hizzit.messenger.business.messagehub.control.PaginationFilterBean;
+import com.hizzit.messenger.business.messagehub.control.MessageFilter;
 import com.hizzit.messenger.business.messagehub.control.MessageStore;
 import com.hizzit.messenger.business.messagehub.control.UUIDgenerator;
 import com.hizzit.messenger.business.messagehub.entity.Message;
@@ -47,7 +47,7 @@ public class MessageEndpoint {
     CommentStore cs;
     
     @Inject
-    MessageFilters mf;
+    MessageFilter mf;
     
     @Inject
     Instance<CommentEndpoint> ce;
@@ -57,9 +57,9 @@ public class MessageEndpoint {
     
     /**
      * Retrieves all messages. Available, filtered after year and
-     * paginated with start and size. 
-     * QueryParams are defined in MessageFilterBean Class for clean code.
-     * All lists of entities are already sorted descending by date (newest up)     
+     paginated with start and size. 
+     QueryParams are defined in PaginationFilterBean Class for clean code.
+     All lists of entities are already sorted descending by date (newest up)     
      * @param filterBean
      * @return 
      */
@@ -67,7 +67,7 @@ public class MessageEndpoint {
     @ApiOperation(value = "Retrieves all messages, (?start=x ?size=x&year=xxxx or paginated only ?start=x&size=x)")
     @ApiResponses({ @ApiResponse(code = 200, message = "Ok"),
                     @ApiResponse(code = 204, message = "No Messages available yet")})
-    public Response getMessages(@BeanParam MessageFilterBean filterBean){
+    public Response getMessages(@BeanParam PaginationFilterBean filterBean){
         List<Message> messages;
         GenericEntity< List<Message> > entity; //with jersey, we can only return entities with Response. https://stackoverflow.com/a/22852881
         
@@ -148,7 +148,6 @@ public class MessageEndpoint {
                     .build();
         }
     }
-   
     
     @POST
     @Path("/{profileId}")

@@ -1,7 +1,9 @@
 package com.hizzit.messenger.business.messagehub.boundary;
 
 import com.hizzit.messenger.business.messagehub.control.CommentStore;
+import com.hizzit.messenger.business.messagehub.control.CommentsFilter;
 import com.hizzit.messenger.business.messagehub.control.MessageStore;
+import com.hizzit.messenger.business.messagehub.control.PaginationFilterBean;
 import com.hizzit.messenger.business.messagehub.control.UUIDgenerator;
 import com.hizzit.messenger.business.messagehub.entity.Comment;
 import io.swagger.annotations.Api;
@@ -11,6 +13,7 @@ import io.swagger.annotations.ApiResponses;
 import java.net.URI;
 import java.util.List;
 import javax.inject.Inject;
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -44,6 +47,9 @@ public class CommentEndpoint {
     
     @Inject
     MessageStore ms;
+    
+    @Inject
+    CommentsFilter cf;
 
     public CommentEndpoint() {
     }
@@ -52,11 +58,19 @@ public class CommentEndpoint {
     @ApiOperation(value = "commentEndpoint-subressource - (messages/{messageId}/comments/) Retrieves all comments for a message by messageId")
     @ApiResponses({ @ApiResponse(code = 200, message = "Ok"),
                     @ApiResponse(code = 204, message = "No comments found yet") })
-    public Response getAllComments(@PathParam("messageId") String messageId){
+    public Response getAllComments(@PathParam("messageId") String messageId, @BeanParam PaginationFilterBean filterBean){
         List<Comment> comments = cs.getAllCommentsFromMessageId(messageId);
         GenericEntity< List<Comment> > entity;
-
-         if(comments.isEmpty()){
+        
+        // messages/{messageId}/comments?start=x&size=x   get comments with pagination
+        if(filterBean.getStart() >= 0 && filterBean.getSize() > 0){
+            comments = cf.getCommentsPaginated(cs.getAllCommentsFromMessageId(messageId), filterBean.getStart(), filterBean.getSize());
+            entity = new GenericEntity< List<Comment> >(comments){};
+            return Response
+                    .ok(entity)
+                    .build();
+        }
+        if(comments.isEmpty()){
             return Response
                     .noContent()
                     .build();

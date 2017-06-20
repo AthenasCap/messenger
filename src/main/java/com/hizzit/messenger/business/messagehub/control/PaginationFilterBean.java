@@ -5,12 +5,12 @@ import javax.ws.rs.QueryParam;
  * To out source Parameters for MessageFilters Class
  * @author jan
  */
-public class MessageFilterBean {
+public class PaginationFilterBean {
     private @QueryParam("year") int year;
     private @QueryParam("start") int start;
     private @QueryParam("size") int size;
 
-    public MessageFilterBean() {
+    public PaginationFilterBean() {
     }
 
     public int getYear() {

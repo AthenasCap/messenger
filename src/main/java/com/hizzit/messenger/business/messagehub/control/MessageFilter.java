@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.List;
 import javax.inject.Inject;
 
-public class MessageFilters {
+public class MessageFilter {
     
     @Inject
     MessageStore ms;
@@ -24,9 +24,7 @@ public class MessageFilters {
     }  
     
     public List<Message> getMessagesPaginated(List<Message> messages, int start, int size){
-        
         if(start + size > messages.size()){
-            //return new ArrayList<Message>();
             return messages.subList(start, messages.size());//if pagesize > remaining listsize -> only show from start to last listelement
         }
         return messages.subList(start, start + size);

@@ -1,4 +1,4 @@
-package com.hizzit.messenger.business.messagehub.boundary;
+package com.hizzit.messenger.business;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
